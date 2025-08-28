@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { brown, indigo } from "@mui/material/colors";
 
+
 const theme = createTheme({
   palette: {
     primary: indigo,
