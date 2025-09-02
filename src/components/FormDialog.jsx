@@ -19,8 +19,8 @@ export default function FormDialog({ open, handleClose, handleSubmit, title }) {
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Open form dialog
       </Button> */}
-      <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>Edit Task</DialogTitle>
+      <Dialog open={open} onClose={handleClose} fullWidth sx={{ direction: "rtl" }}>
+        <DialogTitle>تعديل المهمة</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We
@@ -42,9 +42,9 @@ export default function FormDialog({ open, handleClose, handleSubmit, title }) {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>إغلاق</Button>
           <Button type="submit" form="subscription-form">
-            Update
+            تحديث
           </Button>
         </DialogActions>
       </Dialog>

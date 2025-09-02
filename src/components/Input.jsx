@@ -79,6 +79,7 @@ export default function Input() {
           placeholder="عنوان المهمة"
           value={inputValue}
           onChange={(event) => handleInputValue(event)}
+          label="عنوان المهمة"
         />
       </Stack>
     </>

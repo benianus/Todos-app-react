@@ -8,6 +8,8 @@ import { SnackbarContext, TodosContext } from "../contexts/TodosContext";
 import { saveInLocalStorage } from "../helpers";
 import FormDialog from "./FormDialog";
 import SimpleSnackbar from "./SimpleSnackbar";
+import "../styles/TodoCard.css";
+import AlertDialog from "./AlertDialog";
 
 export default function TodoCard({ title = "مهمة", id }) {
   // contexts
@@ -15,7 +17,21 @@ export default function TodoCard({ title = "مهمة", id }) {
   const { openSnackbar, message, setMessage, setOpenSnackBar } =
     useContext(SnackbarContext);
   // states
-  const [open, setOpen] = useState(false);
+  const [openFormDialog, setOpenFormDialog] = useState(false);
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
+
+  function handleClickOpenAlertDialog() {
+    setOpenAlertDialog(true);
+  }
+
+  function handleCloseAlertDialog() {
+    setOpenAlertDialog(false);
+    handleDeleteClick();
+  }
+
+  function handleDisagreeAlertDialog() {
+    setOpenAlertDialog(false);
+  }
 
   const handleClickSnackBar = (message) => {
     setOpenSnackBar(true);
@@ -31,20 +47,20 @@ export default function TodoCard({ title = "مهمة", id }) {
   };
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenFormDialog(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseFormDialog = () => {
+    setOpenFormDialog(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmitFormDialog = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
     const title = formJson.task;
     handleEditClick(title);
-    handleClose();
+    handleCloseFormDialog();
     handleClickSnackBar("Task Edited Successfully");
   };
 
@@ -94,11 +110,16 @@ export default function TodoCard({ title = "مهمة", id }) {
 
   return (
     <>
+      <AlertDialog
+        openAlertDialog={openAlertDialog}
+        handleClose={handleCloseAlertDialog}
+        handleDisagree={handleDisagreeAlertDialog}
+      />
       <FormDialog
-        open={open}
-        setOpen={setOpen}
-        handleClose={handleClose}
-        handleSubmit={handleSubmit}
+        open={openFormDialog}
+        setOpen={setOpenFormDialog}
+        handleClose={handleCloseFormDialog}
+        handleSubmit={handleSubmitFormDialog}
         title={title}
       />
       <SimpleSnackbar
@@ -107,6 +128,7 @@ export default function TodoCard({ title = "مهمة", id }) {
         message={message}
       />
       <Stack
+        className="card"
         direction={"row"}
         spacing={2}
         sx={{
@@ -116,7 +138,7 @@ export default function TodoCard({ title = "مهمة", id }) {
           marginBottom: "16px",
           borderRadius: "8px",
           backgroundColor: "indigo",
-          boxShadow: "0px 0px 0px 3px rgba(0, 0, 0, 0.2)",
+          boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.2)",
         }}
       >
         <Stack
@@ -130,6 +152,7 @@ export default function TodoCard({ title = "مهمة", id }) {
         >
           <IconButton onClick={handleDoneClick}>
             <DoneIcon
+              className="onHover"
               sx={{
                 backgroundColor: isDone ? "green" : "white",
                 color: isDone ? "white" : "green",
@@ -141,6 +164,7 @@ export default function TodoCard({ title = "مهمة", id }) {
           </IconButton>
           <IconButton onClick={handleClickOpen}>
             <EditIcon
+              className="onHover"
               sx={{
                 backgroundColor: "white",
                 color: "blue",
@@ -150,8 +174,9 @@ export default function TodoCard({ title = "مهمة", id }) {
               }}
             />
           </IconButton>
-          <IconButton onClick={handleDeleteClick}>
+          <IconButton onClick={handleClickOpenAlertDialog}>
             <DeleteIcon
+              className="onHover"
               sx={{
                 backgroundColor: "white",
                 color: "red",
