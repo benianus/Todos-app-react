@@ -1,3 +1,4 @@
+import { Divider } from "@mui/material";
 import "../styles/AppTitle.css";
 
 export default function AppTitle() {
@@ -5,8 +6,8 @@ export default function AppTitle() {
     <>
       <div className="title">
         <h1>مهامي</h1>
-        <hr />
       </div>
+      <Divider sx={{ color: "black" }}/>
     </>
   );
 }

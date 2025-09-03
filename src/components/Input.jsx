@@ -40,7 +40,16 @@ export default function Input() {
     }
     setInputValue("");
     setMessage("Task Added Successfully");
-    setOpenSnackBar(true);
+    /**
+     * show the alert dialog if the input value is not empty
+     */
+    if (value) {
+      setOpenSnackBar(true);
+    }
+    /***
+     * save task to the local storage
+     */
+    // saveInLocalStorage("allTasks", todos);
   }
 
   return (
@@ -66,6 +75,7 @@ export default function Input() {
             fontSize: "16px",
           }}
           onClick={() => handleAddBtn(inputValue)}
+          disabled={inputValue ? false : true}
         >
           إضافة
         </Button>
@@ -76,7 +86,6 @@ export default function Input() {
             width: "70%",
             fontFamily: "Tajawal, sans serif",
           }}
-          placeholder="عنوان المهمة"
           value={inputValue}
           onChange={(event) => handleInputValue(event)}
           label="عنوان المهمة"

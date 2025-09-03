@@ -4,7 +4,7 @@ import TodoCard from "./components/TodoCard";
 import Input from "./components/Input";
 import "./data/todos.jsx";
 import CategoriesBar from "./components/CategoriesBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   InputContext,
   SnackbarContext,
@@ -21,14 +21,19 @@ function App() {
   const allTasks = getFromLocalStorage("allTasks");
 
   const [tabValue, setTabValue] = useState(2);
-  const [todos, setTodos] = useState(allTasks ? allTasks : []);
+  const [todos, setTodos] = useState(allTasks ?? []);
   const [openSnackbar, setOpenSnackBar] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [snackbarMessage, setSnackbarMessage] = useState("");
-
+  /***
+   * get the tasks depends on the tab category
+   * all - done - undone
+   */
   var tasks = getTabContent(tabValue, tasks, todos);
 
-  saveInLocalStorage("allTasks", todos);
+  useEffect(() => {
+    saveInLocalStorage("allTasks", todos);
+  }, [todos]);
 
   return (
     <>

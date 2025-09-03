@@ -7,15 +7,14 @@
 }
 
 .title hr {
-    margin-bottom: 3%;
-    width: 90%;
-    color: rgba(169, 169, 169, 0.705);
+    width: 100%;
+    color: rgba(169, 169, 169, 0.5);
+    opacity: 0.3;
 }
 
 .title h1 {
-    margin: 0%;
     font-size: 100px;
-    position: relative;
-    top: 17%;
-    
+    z-index: 1;
+    padding: 0%;
+    margin: 0%;
 }

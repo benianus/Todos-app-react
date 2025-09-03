@@ -71,13 +71,11 @@ export default function TodoCard({ title = "مهمة", id }) {
   function handleDoneClick() {
     let tasks = todos.map((todo) => {
       if (todo.isDone == false && todo.id == id) {
-        todo.isDone = true;
         handleClickSnackBar("Tasks Done Successfully");
-        return todo;
+        return { ...todo, isDone: true };
       } else if (todo.isDone == true && todo.id == id) {
-        todo.isDone = false;
         handleClickSnackBar("Tasks in Progress Successfully");
-        return todo;
+        return { ...todo, isDone: false };
       }
       return todo;
     });
@@ -88,11 +86,7 @@ export default function TodoCard({ title = "مهمة", id }) {
 
   function handleEditClick(title) {
     let tasks = todos.map((t) => {
-      if (t.id == id) {
-        t.title = title;
-        return t;
-      }
-      return t;
+      return t.id == id ? { ...t, title: title } : t;
     });
 
     setTodos(tasks);
@@ -196,7 +190,7 @@ export default function TodoCard({ title = "مهمة", id }) {
             fontSize: "32px",
           }}
         >
-          <p>{title}</p>
+          <p class={isDone ? "todoText" : ""}>{title}</p>
         </Stack>
       </Stack>
     </>

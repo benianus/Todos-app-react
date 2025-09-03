@@ -1,0 +1,7 @@
+.tabHover {
+    transition: all 300 ms;
+}
+
+.tabHover:hover {
+    background-color: gray;
+}
