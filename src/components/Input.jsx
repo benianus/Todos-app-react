@@ -2,63 +2,22 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useContext } from "react";
-import {
-  InputContext,
-  SnackbarContext,
-  TodosContext,
-} from "../contexts/TodosContext";
-import SimpleSnackbar from "./SimpleSnackbar";
+import { InputContext } from "../contexts/TodosContext";
 
-export default function Input() {
+export default function Input({ handleAddBtn }) {
   const { inputValue, setInputValue } = useContext(InputContext);
-  const { todos, setTodos } = useContext(TodosContext);
-  const { openSnackbar, message, setMessage, setOpenSnackBar } =
-    useContext(SnackbarContext);
-
-  const handleCloseSnackBar = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpenSnackBar(false);
-  };
 
   function handleInputValue(event) {
     setInputValue(event.target.value);
   }
 
-  function handleAddBtn(value) {
-    if (value) {
-      setTodos([
-        ...todos,
-        {
-          id: todos.length + 1,
-          title: value,
-          isDone: false,
-        },
-      ]);
-    }
-    setInputValue("");
-    setMessage("Task Added Successfully");
-    /**
-     * show the alert dialog if the input value is not empty
-     */
-    if (value) {
-      setOpenSnackBar(true);
-    }
-    /***
-     * save task to the local storage
-     */
-    // saveInLocalStorage("allTasks", todos);
-  }
-
   return (
     <>
-      <SimpleSnackbar
+      {/* <SimpleSnackbar
         open={openSnackbar}
         handleClose={handleCloseSnackBar}
         message={message}
-      />
+      /> */}
       <Stack
         direction="row"
         spacing={2}

@@ -3,124 +3,16 @@ import DoneIcon from "@mui/icons-material/Done";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import { useContext, useState } from "react";
-import { SnackbarContext, TodosContext } from "../contexts/TodosContext";
-import { saveInLocalStorage } from "../helpers";
-import FormDialog from "./FormDialog";
-import SimpleSnackbar from "./SimpleSnackbar";
 import "../styles/TodoCard.css";
-import AlertDialog from "./AlertDialog";
 
-export default function TodoCard({ title = "مهمة", id }) {
-  // contexts
-  const { todos, setTodos } = useContext(TodosContext);
-  const { openSnackbar, message, setMessage, setOpenSnackBar } =
-    useContext(SnackbarContext);
-  // states
-  const [openFormDialog, setOpenFormDialog] = useState(false);
-  const [openAlertDialog, setOpenAlertDialog] = useState(false);
-
-  function handleClickOpenAlertDialog() {
-    setOpenAlertDialog(true);
-  }
-
-  function handleCloseAlertDialog() {
-    setOpenAlertDialog(false);
-    handleDeleteClick();
-  }
-
-  function handleDisagreeAlertDialog() {
-    setOpenAlertDialog(false);
-  }
-
-  const handleClickSnackBar = (message) => {
-    setOpenSnackBar(true);
-    setMessage(message);
-  };
-
-  const handleCloseSnackBar = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpenSnackBar(false);
-  };
-
-  const handleClickOpen = () => {
-    setOpenFormDialog(true);
-  };
-
-  const handleCloseFormDialog = () => {
-    setOpenFormDialog(false);
-  };
-
-  const handleSubmitFormDialog = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries(formData.entries());
-    const title = formJson.task;
-    handleEditClick(title);
-    handleCloseFormDialog();
-    handleClickSnackBar("Task Edited Successfully");
-  };
-
-  let [{ isDone }] = todos.filter((t) => {
-    return t.id == id;
-  });
-
-  function handleDoneClick() {
-    let tasks = todos.map((todo) => {
-      if (todo.isDone == false && todo.id == id) {
-        handleClickSnackBar("Tasks Done Successfully");
-        return { ...todo, isDone: true };
-      } else if (todo.isDone == true && todo.id == id) {
-        handleClickSnackBar("Tasks in Progress Successfully");
-        return { ...todo, isDone: false };
-      }
-      return todo;
-    });
-
-    setTodos(tasks);
-    saveInLocalStorage("allTasks", tasks);
-  }
-
-  function handleEditClick(title) {
-    let tasks = todos.map((t) => {
-      return t.id == id ? { ...t, title: title } : t;
-    });
-
-    setTodos(tasks);
-    saveInLocalStorage("allTasks", tasks);
-  }
-
-  function handleDeleteClick() {
-    let tasks = todos.filter((t) => {
-      return t.id != id;
-    });
-    setTodos(tasks);
-    saveInLocalStorage("allTasks", tasks);
-    handleClickSnackBar("Tasks Deleted Successfully");
-  }
-
+export default function TodoCard({
+  todo,
+  handleDoneClick,
+  handleClickOpenAlertDialog,
+  handleClickOpen,
+}) {
   return (
     <>
-      <AlertDialog
-        openAlertDialog={openAlertDialog}
-        handleClose={handleCloseAlertDialog}
-        handleDisagree={handleDisagreeAlertDialog}
-      />
-      <FormDialog
-        open={openFormDialog}
-        setOpen={setOpenFormDialog}
-        handleClose={handleCloseFormDialog}
-        handleSubmit={handleSubmitFormDialog}
-        title={title}
-      />
-      <SimpleSnackbar
-        open={openSnackbar}
-        handleClose={handleCloseSnackBar}
-        message={message}
-      />
       <Stack
         className="card"
         direction={"row"}
@@ -144,19 +36,19 @@ export default function TodoCard({ title = "مهمة", id }) {
             alignItems: "center",
           }}
         >
-          <IconButton onClick={handleDoneClick}>
+          <IconButton onClick={() => handleDoneClick(todo)}>
             <DoneIcon
               className="onHover"
               sx={{
-                backgroundColor: isDone ? "green" : "white",
-                color: isDone ? "white" : "green",
+                backgroundColor: todo.isDone ? "green" : "white",
+                color: todo.isDone ? "white" : "green",
                 padding: "8px",
                 borderRadius: "50%",
                 border: "1px solid blue",
               }}
             />
           </IconButton>
-          <IconButton onClick={handleClickOpen}>
+          <IconButton onClick={() => handleClickOpen(todo)}>
             <EditIcon
               className="onHover"
               sx={{
@@ -168,7 +60,7 @@ export default function TodoCard({ title = "مهمة", id }) {
               }}
             />
           </IconButton>
-          <IconButton onClick={handleClickOpenAlertDialog}>
+          <IconButton onClick={() => handleClickOpenAlertDialog(todo)}>
             <DeleteIcon
               className="onHover"
               sx={{
@@ -190,7 +82,7 @@ export default function TodoCard({ title = "مهمة", id }) {
             fontSize: "32px",
           }}
         >
-          <p class={isDone ? "todoText" : ""}>{title}</p>
+          <p class={todo.isDone ? "todoText" : ""}>{todo.title}</p>
         </Stack>
       </Stack>
     </>

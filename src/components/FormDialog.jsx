@@ -6,20 +6,27 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
+import { useEffect } from "react";
 
 export default function FormDialog({ open, handleClose, handleSubmit, title }) {
-  const [value, setValue] = useState(title);
+  const [value, setValue] = useState("");
 
-  function handleValueChange(event){
-    setValue(event.target.value)
+  useEffect(() => {
+    setValue(title);
+  }, [title]);
+
+  function handleValueChange(value) {
+    setValue(value);
   }
-  
+
   return (
     <React.Fragment>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
-      </Button> */}
-      <Dialog open={open} onClose={handleClose} fullWidth sx={{ direction: "rtl" }}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        sx={{ direction: "rtl" }}
+      >
         <DialogTitle>تعديل المهمة</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
@@ -37,7 +44,7 @@ export default function FormDialog({ open, handleClose, handleSubmit, title }) {
               fullWidth
               variant="standard"
               value={value}
-              onChange={(e) => handleValueChange(e)}
+              onChange={(e) => handleValueChange(e.target.value)}
             />
           </form>
         </DialogContent>
