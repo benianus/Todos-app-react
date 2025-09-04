@@ -18,6 +18,7 @@ import FormDialog from "./components/FormDialog.jsx";
 import toast, { Toaster } from "react-hot-toast";
 
 const notify = (message) => toast.success(message);
+const error = (message) => toast.error(message);
 
 function App() {
   /**
@@ -50,6 +51,7 @@ function App() {
 
   function handleDisagreeAlertDialog() {
     setOpenAlertDialog(false);
+    error("Task Delete Canceled");
   }
 
   function handleDeleteClick(todoId) {
@@ -63,6 +65,7 @@ function App() {
 
   const handleCloseFormDialog = () => {
     setOpenFormDialog(false);
+    error("Task Update Canceled")
   };
 
   const handleSubmitFormDialog = (event) => {
