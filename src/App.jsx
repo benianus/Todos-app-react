@@ -4,7 +4,7 @@ import TodoCard from "./components/TodoCard";
 import Input from "./components/Input";
 import "./data/todos.jsx";
 import CategoriesBar from "./components/CategoriesBar";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import {
   InputContext,
   SnackbarContext,
@@ -15,6 +15,9 @@ import { getFromLocalStorage, saveInLocalStorage } from "./helpers.js";
 import AlertDialog from "./components/AlertDialog.jsx";
 import SimpleSnackbar from "./components/SimpleSnackbar.jsx";
 import FormDialog from "./components/FormDialog.jsx";
+import toast, { Toaster } from "react-hot-toast";
+
+const notify = (message) => toast.success(message);
 
 function App() {
   /**
@@ -63,7 +66,7 @@ function App() {
     });
     setTodos(tasks);
     saveInLocalStorage("allTasks", tasks);
-    handleClickSnackBar("Tasks Deleted Successfully");
+    notify("Tasks Deleted Successfully");
   }
   const handleCloseSnackBar = (event, reason) => {
     if (reason === "clickaway") {
@@ -84,7 +87,7 @@ function App() {
     const title = formJson.task;
     handleEditClick(title);
     handleCloseFormDialog();
-    handleClickSnackBar("Task Edited Successfully");
+    notify("Task Edited Successfully");
   };
 
   const handleClickOpen = (task) => {
@@ -96,10 +99,10 @@ function App() {
     setTodo(task);
     let tasks = todos.map((todo) => {
       if (todo.isDone == false && todo.id == task.id) {
-        handleClickSnackBar("Tasks Done Successfully");
+        notify("Tasks Completed Successfully");
         return { ...todo, isDone: true };
       } else if (todo.isDone == true && todo.id == task.id) {
-        handleClickSnackBar("Tasks in Progress Successfully");
+        notify("Tasks Not Completed Successfully");
         return { ...todo, isDone: false };
       }
       return todo;
@@ -128,12 +131,11 @@ function App() {
       ]);
     }
     setInputValue("");
-    setMessage("Task Added Successfully");
     /**
      * show the alert dialog if the input value is not empty
      */
     if (value) {
-      setOpenSnackBar(true);
+      notify("Task Added Successfully");
     }
     /***
      * save task to the local storage
@@ -155,6 +157,7 @@ function App() {
 
   return (
     <>
+      <Toaster position="bottom-left" reverseOrder={false} />
       <AlertDialog
         openAlertDialog={openAlertDialog}
         handleClose={handleCloseAlertDialog}
@@ -187,7 +190,7 @@ function App() {
                 <AppTitle />
                 <CategoriesBar />
                 {tasks}
-                <Input handleAddBtn={handleAddBtn}/>
+                <Input handleAddBtn={handleAddBtn} />
               </div>
             </TabContext.Provider>
           </SnackbarContext.Provider>
