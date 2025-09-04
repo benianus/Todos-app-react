@@ -51,7 +51,7 @@ function App() {
 
   function handleDisagreeAlertDialog() {
     setOpenAlertDialog(false);
-    error("Task Delete Canceled");
+    error("تم إلغاء حذف المهمة");
   }
 
   function handleDeleteClick(todoId) {
@@ -60,12 +60,12 @@ function App() {
     });
     setTodos(tasks);
     saveInLocalStorage("allTasks", tasks);
-    notify("Tasks Deleted Successfully");
+    notify("تم الحذف بنجاح");
   }
 
   const handleCloseFormDialog = () => {
     setOpenFormDialog(false);
-    error("Task Update Canceled")
+    error("تم إلغاء تعديل المهمة");
   };
 
   const handleSubmitFormDialog = (event) => {
@@ -75,7 +75,7 @@ function App() {
     const title = formJson.task;
     handleEditClick(title);
     handleCloseFormDialog();
-    notify("Task Edited Successfully");
+    notify("تم التعديل بنجاح");
   };
 
   const handleClickOpen = (task) => {
@@ -87,10 +87,10 @@ function App() {
     setTodo(task);
     let tasks = todos.map((todo) => {
       if (todo.isDone == false && todo.id == task.id) {
-        notify("Tasks Completed Successfully");
+        notify("تم إنهاء المهمة بنجاح");
         return { ...todo, isDone: true };
       } else if (todo.isDone == true && todo.id == task.id) {
-        notify("Tasks Not Completed Successfully");
+        error("تم إلغاء المهمة بنجاح");
         return { ...todo, isDone: false };
       }
       return todo;
@@ -123,7 +123,7 @@ function App() {
      * show the alert dialog if the input value is not empty
      */
     if (value) {
-      notify("Task Added Successfully");
+      notify("تم إضافة المهمة بنجاح");
     }
     /***
      * save task to the local storage
