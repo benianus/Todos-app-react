@@ -32,15 +32,7 @@ function App() {
   const [tabValue, setTabValue] = useState(2);
   const [todos, setTodos] = useState(allTasks ?? []);
   const [todo, setTodo] = useState({});
-  const [openSnackbar, setOpenSnackBar] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [message, setMessage] = useState("");
-
-  const handleClickSnackBar = (message) => {
-    setOpenSnackBar(true);
-    setMessage(message);
-  };
 
   function handleClickOpenAlertDialog(task) {
     setTodo(task);
@@ -68,13 +60,6 @@ function App() {
     saveInLocalStorage("allTasks", tasks);
     notify("Tasks Deleted Successfully");
   }
-  const handleCloseSnackBar = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpenSnackBar(false);
-  };
 
   const handleCloseFormDialog = () => {
     setOpenFormDialog(false);
@@ -170,30 +155,17 @@ function App() {
         handleSubmit={handleSubmitFormDialog}
         title={todo.title}
       />
-      <SimpleSnackbar
-        open={openSnackbar}
-        handleClose={handleCloseSnackBar}
-        message={message}
-      />
+
       <TodosContext.Provider value={{ todos, setTodos }}>
         <InputContext.Provider value={{ inputValue, setInputValue }}>
-          <SnackbarContext.Provider
-            value={{
-              openSnackbar,
-              message: snackbarMessage,
-              setMessage: setSnackbarMessage,
-              setOpenSnackBar,
-            }}
-          >
-            <TabContext.Provider value={{ tabValue, setTabValue }}>
-              <div className="mainContainer">
-                <AppTitle />
-                <CategoriesBar />
-                {tasks}
-                <Input handleAddBtn={handleAddBtn} />
-              </div>
-            </TabContext.Provider>
-          </SnackbarContext.Provider>
+          <TabContext.Provider value={{ tabValue, setTabValue }}>
+            <div className="mainContainer">
+              <AppTitle />
+              <CategoriesBar />
+              {tasks}
+              <Input handleAddBtn={handleAddBtn} />
+            </div>
+          </TabContext.Provider>
         </InputContext.Provider>
       </TodosContext.Provider>
     </>
