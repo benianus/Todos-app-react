@@ -5,15 +5,11 @@ import Input from "./components/Input";
 import "./data/todos.jsx";
 import CategoriesBar from "./components/CategoriesBar";
 import { useEffect, useState } from "react";
-import {
-  InputContext,
-  SnackbarContext,
-  TabContext,
-  TodosContext,
-} from "./contexts/TodosContext.jsx";
+import { TodosContext } from "./contexts/TodosContext.jsx";
+import { TabContext } from "./contexts/TabsContext.jsx";
+import { InputProvider, useInput } from "./contexts/InputContext.jsx";
 import { getFromLocalStorage, saveInLocalStorage } from "./helpers.js";
 import AlertDialog from "./components/AlertDialog.jsx";
-import SimpleSnackbar from "./components/SimpleSnackbar.jsx";
 import FormDialog from "./components/FormDialog.jsx";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -25,15 +21,17 @@ function App() {
    * keys: allTasks, doneTasks, undoneTasks
    * get data from local storage
    */
+
   const allTasks = getFromLocalStorage("allTasks");
 
   // states
+  const [todos, setTodos] = useState(allTasks ?? []);
   const [openFormDialog, setOpenFormDialog] = useState(false);
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const [tabValue, setTabValue] = useState(2);
-  const [todos, setTodos] = useState(allTasks ?? []);
   const [todo, setTodo] = useState({});
-  const [inputValue, setInputValue] = useState("");
+  // const [inputValue, setInputValue] = useState("");
+  const { setInputValue } = useInput();
 
   function handleClickOpenAlertDialog(task) {
     setTodo(task);
@@ -107,6 +105,7 @@ function App() {
     setTodos(tasks);
     saveInLocalStorage("allTasks", tasks);
   }
+
   function handleAddBtn(value) {
     if (value) {
       setTodos([
@@ -125,11 +124,8 @@ function App() {
     if (value) {
       notify("تم إضافة المهمة بنجاح");
     }
-    /***
-     * save task to the local storage
-     */
-    // saveInLocalStorage("allTasks", todos);
   }
+
   var tasks = getTabContent(
     tabValue,
     tasks,
@@ -160,7 +156,7 @@ function App() {
       />
 
       <TodosContext.Provider value={{ todos, setTodos }}>
-        <InputContext.Provider value={{ inputValue, setInputValue }}>
+        <InputProvider>
           <TabContext.Provider value={{ tabValue, setTabValue }}>
             <div className="mainContainer">
               <AppTitle />
@@ -169,7 +165,7 @@ function App() {
               <Input handleAddBtn={handleAddBtn} />
             </div>
           </TabContext.Provider>
-        </InputContext.Provider>
+        </InputProvider>
       </TodosContext.Provider>
     </>
   );

@@ -1,7 +1,7 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useContext } from "react";
-import { TabContext } from "../contexts/TodosContext";
+import { TabContext } from "../contexts/TabsContext";
 import { styled } from "@mui/material/styles";
 
 const AntTabs = styled(Tabs)({

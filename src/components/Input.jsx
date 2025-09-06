@@ -2,10 +2,11 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useContext } from "react";
-import { InputContext } from "../contexts/TodosContext";
+import { useInput } from "../contexts/InputContext";
 
 export default function Input({ handleAddBtn }) {
-  const { inputValue, setInputValue } = useContext(InputContext);
+  // const { inputValue, setInputValue } = useContext(InputContext);
+  const { inputValue, setInputValue } = useInput();
 
   function handleInputValue(event) {
     setInputValue(event.target.value);
