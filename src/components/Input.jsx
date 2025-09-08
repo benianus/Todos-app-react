@@ -1,11 +1,9 @@
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { useContext } from "react";
 import { useInput } from "../contexts/InputContext";
 
 export default function Input({ handleAddBtn }) {
-  // const { inputValue, setInputValue } = useContext(InputContext);
   const { inputValue, setInputValue } = useInput();
 
   function handleInputValue(event) {
@@ -14,11 +12,6 @@ export default function Input({ handleAddBtn }) {
 
   return (
     <>
-      {/* <SimpleSnackbar
-        open={openSnackbar}
-        handleClose={handleCloseSnackBar}
-        message={message}
-      /> */}
       <Stack
         direction="row"
         spacing={2}
@@ -34,7 +27,10 @@ export default function Input({ handleAddBtn }) {
             fontFamily: "Tajawal, sans serif",
             fontSize: "16px",
           }}
-          onClick={() => handleAddBtn(inputValue)}
+          onClick={() => {
+            handleAddBtn(inputValue);
+            setInputValue("");
+          }}
           disabled={inputValue ? false : true}
         >
           إضافة

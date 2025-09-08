@@ -1,4 +1,3 @@
-import "./styles/App.css";
 import AppTitle from "./components/AppTitle";
 import TodoCard from "./components/TodoCard";
 import Input from "./components/Input";
@@ -17,7 +16,7 @@ import { reducer } from "./reducers/todosReducer.jsx";
 const notify = (message) => toast.success(message);
 const error = (message) => toast.error(message);
 
-function App() {
+function TodoList() {
   /**
    * keys: allTasks, doneTasks, undoneTasks
    * get data from local storage
@@ -146,7 +145,7 @@ function App() {
   );
 }
 
-export default App;
+export default TodoList;
 
 function getTabContent(
   tabValue,
