@@ -30,7 +30,7 @@ export function reducer(prevState, action) {
         } else if (todo.isDone == true && todo.id == action.payload.task.id) {
           return { ...todo, isDone: false };
         }
-    
+        
         return todo;
       });
       saveInLocalStorage("allTasks", tasks);
