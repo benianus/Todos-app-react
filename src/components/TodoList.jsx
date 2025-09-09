@@ -6,7 +6,7 @@ import CategoriesBar from "./components/CategoriesBar";
 import { useEffect, useReducer, useState } from "react";
 import { TodosContext } from "./contexts/TodosContext.jsx";
 import { TabContext } from "./contexts/TabsContext.jsx";
-import { InputProvider, useInput } from "./contexts/InputContext.jsx";
+import { InputProvider } from "./contexts/InputContext.jsx";
 import { getFromLocalStorage, saveInLocalStorage } from "./helpers.js";
 import AlertDialog from "./components/AlertDialog.jsx";
 import FormDialog from "./components/FormDialog.jsx";
